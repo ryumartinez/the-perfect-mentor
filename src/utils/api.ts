@@ -11,6 +11,14 @@ import superjson from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
 
+export let token = "sfasdf";
+
+if (typeof window !== "undefined"){
+  const localStorageToken = localStorage.getItem("token")
+  if(localStorageToken){token=localStorageToken}
+}
+
+
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
@@ -40,7 +48,12 @@ export const api = createTRPCNext<AppRouter>({
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
+          url: 'http://localhost:3000/api/trpc',
+          headers() {
+            return {
+              authorization: token,
+            };
+          },
         }),
       ],
     };

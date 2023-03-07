@@ -15,21 +15,39 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-
+import jwt from "jsonwebtoken"
 import { prisma } from "~/server/db";
 
-
+ type Payload = {
+  id: string,
+  email:string,
+  role: string
+ }
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
+export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
   const {req,res} = _opts
+  async function getUserFromHeader() {
+    if (req.headers.authorization) {
+          try{
+          const wea = jwt.verify(req.headers.authorization,"secreto") as Payload
+          return wea
+          }
+          catch(err){
+            
+            return null
+          }
+    }
+    return null;
+  }
+  const user = await getUserFromHeader();
   return {
     prisma,
-    req
+    user
   };
 };
 
@@ -38,8 +56,9 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
  *
  * This is where the tRPC API is initialized, connecting the context and transformer.
  */
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
+import { Interface } from "readline";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -71,4 +90,35 @@ export const createTRPCRouter = t.router;
  */
 export const publicProcedure = t.procedure;
 
+/**
+ * Reusable middleware that enforces users are logged in before running the
+ * procedure.
+ */
+const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+  if (!ctx.user || !ctx.user.email) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      user: ctx.user,
+      prisma: ctx.prisma
+    },
+  });
+});
 
+const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
+  if (!ctx.user ||  ctx.user.role !== "admin") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      user: ctx.user,
+      prisma: ctx.prisma
+    },
+  });
+});
+
+
+export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+
+export const adminProcedure = t.procedure.use(enforceUserIsAdmin)

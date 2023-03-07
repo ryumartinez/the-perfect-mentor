@@ -20,6 +20,8 @@ model User {
     id        String   @id @default(cuid())
     password  String 
     email     String
+    name      String?
+    role      String    @default("user")
     age       String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

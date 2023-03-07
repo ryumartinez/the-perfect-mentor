@@ -25,23 +25,23 @@ const register = () => {
         <h1>Register</h1>
         <form className="mx-auto flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-10 flex flex-col gap-10">
-            <div className="flex h-[55px] items-center justify-center gap-2 border border-solid border-black">
+            <div className="rounded-3xl flex h-[55px] items-center justify-center gap-2 border border-solid border-black">
               <div className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-white">
                 <AiOutlineMail />
               </div>
               {/** email input  */}
-              <input type="text" placeholder="email" className="" {...register("email")} />
+              <input type="text" placeholder="email" className="bg-transparent" {...register("email")} />
             </div>
 
-            <div className="flex h-[55px] items-center justify-center gap-2 border border-solid border-black">
+            <div className="rounded-3xl flex h-[55px] items-center justify-center gap-2 border border-solid border-black">
               <div className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-white">
                 <AiOutlineLock />
               </div>
               {/** password input */}
-              <input type="text" placeholder="password" className="" {...register("password")} />
+              <input type="text" placeholder="password" className="bg-transparent" {...register("password")} />
             </div>
           </div>
-          <input type="submit" className="mt-40" />
+          <input type="submit" className="mt-40 rounded-3xl flex h-[55px] items-center justify-center gap-2 border border-solid border-black" />
         </form>
       </section>
     </AuthLayout>
