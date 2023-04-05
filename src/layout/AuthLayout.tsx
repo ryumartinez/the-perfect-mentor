@@ -9,7 +9,7 @@ export const AuthLayout = ({children}:Props) => {
   return (
     <div className='flex flex-col h-screen bg-[#BFD732]'>
         <div className='m-auto'>
-        <div className='flex items-center justify-center'>
+        <div className='flex items-center justify-center mb-5'>
             <p className='md:pl-56 text-5xl w-[200px]'>
                 The perfect <span className='text-white'>M</span>entor
             </p>
