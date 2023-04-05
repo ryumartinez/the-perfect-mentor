@@ -8,7 +8,7 @@ export const adminRouter = createTRPCRouter({
     .input(z.object({name:z.string(),email:z.string(),age:z.string(),id:z.string(),role:z.string()}))
     .mutation(
         ({ctx,input})=>{
-            return ctx.prisma.user.update({where:{id:input.id},data:{name:input.name,email:input.email,role:input.role}})
+            return ctx.prisma.user.update({where:{id:input.id},data:{name:input.name,email:input.email,role:input.role,age:input.age}})
         }
     )
 }) 

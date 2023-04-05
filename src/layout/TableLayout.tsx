@@ -4,7 +4,8 @@ import React from 'react'
 //tengo que copiar el resto de la doc de como hacer un subcomoponent
 //El subcomponent va a ser un form que va a actualizar la data
 //Ese componente va a hacerle un optimistic update a la tabla
-
+//Lo unico que me queda es poner los estilos. Para la columna status voy a poner un className condicional
+//
 const TableLayout = ({
   getTableProps,
   getTableBodyProps,
@@ -39,7 +40,14 @@ const TableLayout = ({
                 <tr>
                   {row.cells.map(cell => {
                     return (
-                      <td {...cell.getCellProps({className:"border-2 border-black"})}>{cell.render('Cell')}</td>
+                      <td {...cell.getCellProps(
+
+                        //Aca tengo que hacer el classname condicional
+                        //tengo que usar cell.values[indice]
+                        {className:"border-2 border-black"}
+                        
+                        
+                        )}>{cell.render('Cell')}</td>
                     )
                   })}
                 </tr>
