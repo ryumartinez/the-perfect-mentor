@@ -38,5 +38,11 @@ export const userRouter = createTRPCRouter({
     .mutation(({input,ctx})=>{
         const userId = ctx.user.id
         return ctx.prisma.user.update({where:{id:userId},data:input})
-    })
+    }),
+    showAllUsers: publicProcedure.query(
+        ({ctx})=>{
+            const data = ctx.prisma.user.findMany()
+            return data
+        }
+    )
 });
