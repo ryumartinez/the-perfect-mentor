@@ -23,6 +23,7 @@ model User {
     name      String?  @default("----")
     role      String   @default("user")
     age       String?  @default("----")
+    status    String  @default("unverified")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

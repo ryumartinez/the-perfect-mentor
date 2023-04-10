@@ -46,6 +46,11 @@ const TableInstance = ({tableData}:Props) => {
          Header: 'Id',
          accessor: 'id', // accessor is the "key" in the data
        },
+        {
+         Header: 'Status',
+         accessor: 'status', // accessor is the "key" in the data
+       },
+       
 
      ],
      []

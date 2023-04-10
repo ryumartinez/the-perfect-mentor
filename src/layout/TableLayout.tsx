@@ -17,7 +17,7 @@ const TableLayout = ({
 
 
   return (
-    <table {...getTableProps({className:"border-2 border-black w-[1018px]"})}>
+    <table {...getTableProps()}>
 
       <thead>
         {headerGroups.map(headerGroup => (
@@ -36,18 +36,13 @@ const TableLayout = ({
             prepareRow(row)
             return (
               // Use a React.Fragment here so the table markup is still valid
-              <React.Fragment {...row.getRowProps()}>
-                <tr>
+              <React.Fragment >
+                <tr {...row.getRowProps({className:row.values.status})}>
                   {row.cells.map(cell => {
                     return (
                       <td {...cell.getCellProps(
-
-                        //Aca tengo que hacer el classname condicional
-                        //tengo que usar cell.values[indice]
-                        {className:"border-2 border-black"}
-                        
-                        
-                        )}>{cell.render('Cell')}</td>
+                        {}
+                      )}>{cell.render('Cell')}</td>
                     )
                   })}
                 </tr>
